@@ -2,10 +2,10 @@ import React from 'react';
 import { Card, CardImg, CardImgOverlay, CardTitle } from 'reactstrap';
 
 
-const MenuItemComponent = function ({ dish, onClick }) {
+const MenuItemComponent = function ({ dish }) {
     return (
         <React.Fragment>
-            <Card key={dish.id} onClick={() => onClick(dish.id)}>
+            <Card key={dish.id}>
                 <CardImg width="100%" src={dish.image} alt={dish.name} />
                 <CardImgOverlay>
                     <CardTitle>{dish.name}</CardTitle>
@@ -19,7 +19,7 @@ const Menu = (props) => {
     const menu = props.dishes.map((dish) => {
         return (
             <div key={dish.id} className="col-12 col-md-5 m-1">
-                <MenuItemComponent dish={dish} onClick={props.onClick} />
+                <MenuItemComponent dish={dish} />
             </div>
         );
     });
