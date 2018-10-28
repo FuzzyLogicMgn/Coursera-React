@@ -64,7 +64,7 @@ class Contact extends Component {
 
     onBlur = (field) => (evt) => {
         this.setState({
-            touched: { ... this.state.touched, [field]: true }
+            touched: { ...this.state.touched, [field]: true }
         });
     }
 

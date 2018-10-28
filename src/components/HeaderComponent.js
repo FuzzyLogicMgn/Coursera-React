@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
-import { Nav, Navbar, NavItem, NavbarBrand, NavbarToggler, Collapse, Jumbotron } from 'reactstrap';
+import {
+    Button, Nav, Navbar, NavItem, NavbarBrand, NavbarToggler, Collapse, Jumbotron,
+    Modal, ModalHeader, ModalBody, Form, FormGroup, Input, Label
+} from 'reactstrap';
 import { NavLink } from 'react-router-dom';
 
 class Header extends Component {
@@ -8,8 +11,10 @@ class Header extends Component {
         super(props);
 
         this.toggleNav = this.toggleNav.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
         this.state = {
-            isNavOpen: false
+            isNavOpen: false,
+            isModalOpen: false
         };
     }
 
@@ -19,41 +24,85 @@ class Header extends Component {
         });
     }
 
+    toggleModal() {
+        this.setState({
+            isModalOpen: !this.state.isModalOpen
+        });
+    }
+
+    onLoginSubmit(event) {
+        this.toggleModal();
+        alert(`Username: ${this.username.value} Password: ${this.password.value} Remember me: ${this.remember.checked}`);
+        event.preventDefault();
+    }
+
     render() {
         return (
             <div>
-                <Navbar dark expand="md">                    
+                <Navbar dark expand="md">
                     <div className="container">
-                        <NavbarToggler onClick={this.toggleNav}/>
-                        <NavbarBrand mr="auto" href="/"> 
+                        <NavbarToggler onClick={this.toggleNav} />
+                        <NavbarBrand mr="auto" href="/">
                             <img src="assets/images/logo.png" height="30" width="41" alt="Ristorante Con Fusion"></img>
                         </NavbarBrand>
                         <Collapse isOpen={this.state.isNavOpen} navbar>
                             <Nav navbar>
                                 <NavItem>
                                     <NavLink className="nav-link" to="/home">
-                                        <span className="fa fa-home fa-lg"/> Home
+                                        <span className="fa fa-home fa-lg" /> Home
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
                                     <NavLink className="nav-link" to="/aboutus">
-                                        <span className="fa fa-info fa-lg"/> About Us
+                                        <span className="fa fa-info fa-lg" /> About Us
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
                                     <NavLink className="nav-link" to="/menu">
-                                        <span className="fa fa-list fa-lg"/> Menu
+                                        <span className="fa fa-list fa-lg" /> Menu
                                     </NavLink>
                                 </NavItem>
                                 <NavItem>
                                     <NavLink className="nav-link" to="/contactus">
-                                        <span className="fa fa-address-card fa-lg"/> Contact Us
+                                        <span className="fa fa-address-card fa-lg" /> Contact Us
                                     </NavLink>
+                                </NavItem>
+                            </Nav>
+                            <Nav navbar className="ml-auto">
+                                <NavItem>
+                                    <Button outline onClick={this.toggleModal}>
+                                        <span className="fa fa-sign-in fa-lg" /> Login
+                                    </Button>
                                 </NavItem>
                             </Nav>
                         </Collapse>
                     </div>
                 </Navbar>
+                <Modal isOpen={this.state.isModalOpen} toggle={this.toggleModal}>
+                    <ModalHeader toggle={this.toggleModal}>Login</ModalHeader>
+                    <ModalBody>
+                        <Form onSubmit={(e) => this.onLoginSubmit(e)}>
+                            <FormGroup>
+                                <Label htmlFor="username">Username</Label>
+                                <Input type="text" id="username" name="username"
+                                    placeholder="User name" innerRef={(input) => this.username = input} />
+                            </FormGroup>
+                            <FormGroup>
+                                <Label htmlFor="password">Password</Label>
+                                <Input type="password" id="password" name="password"
+                                    placeholder="Password" innerRef={(input) => this.password = input} />
+                            </FormGroup>
+                            <FormGroup check>
+                                <Label check>
+                                    <Input type="checkbox" id="remember" name="remember"
+                                        innerRef={(input) => this.remember = input} />
+                                    Remember me
+                                </Label>
+                            </FormGroup>
+                            <Button type="submit" value="submit" color="primary">Login</Button>
+                        </Form>
+                    </ModalBody>
+                </Modal>
                 <Jumbotron>
                     <div className="container">
                         <div className="row row-header">
