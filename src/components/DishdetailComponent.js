@@ -29,7 +29,7 @@ function RenderComments(comments) {
         const dateFormatter = new Intl.DateTimeFormat("en-US", dateOpts);
         const commentsItem = comments.map((comm) => {
             return (
-                <li>
+                <li key={comm.id}>
                     <p>{comm.comment}</p>
                     <p>--{comm.author}, {dateFormatter.format(new Date(comm.date))}</p>
                 </li>
