@@ -22,10 +22,9 @@ class CommentForm extends Component {
         });
     }
 
-    submitComment(values) {
-        const msg = "Submitted comment: " + JSON.stringify(values);
-        console.log(msg);
-        alert(msg);
+    submitComment(values) {        
+        console.log("Submitted comment: ", values);
+        this.props.addComment(this.props.dishId, +values.rating, values.author, values.comment);
     }
 
     render() {
@@ -52,10 +51,10 @@ class CommentForm extends Component {
                                 </Control.select>
                             </div>
                             <div className="form-group">
-                                <Label for="name">Your Name</Label>
-                                <Control.text model=".name" id="name" className="form-control"
+                                <Label for="author">Your Name</Label>
+                                <Control.text model=".author" id="author" className="form-control"
                                     validators={{ minLen: minLen(3), maxLen: maxLen(15) }} />
-                                <Errors className="text-danger" model=".name" show="touched"
+                                <Errors className="text-danger" model=".author" show="touched"
                                     messages={{
                                         minLen: "User name must contain at least 3 characters",
                                         maxLen: "User name must be 15 characters or less"
@@ -93,7 +92,7 @@ function RenderDish(dish) {
     }
 }
 
-function RenderComments(comments) {
+function RenderComments(comments, addComment, dishId) {
     if (comments != null) {
         const dateOpts = {
             year: 'numeric',
@@ -115,11 +114,11 @@ function RenderComments(comments) {
                 <ul className="list-unstyled">
                     {commentsItem}
                 </ul>
-                <CommentForm />
+                <CommentForm dishId={dishId} addComment={addComment}/>
             </div>
         );
     } else {
-        return (<CommentForm />);
+        return (<CommentForm dishId={dishId} addComment={addComment}/>);
     }
 }
 
@@ -138,7 +137,7 @@ const DishDetail = (props) => {
                         {RenderDish(props.dish)}
                     </div>
                     <div className="col-12 col-md-5 m-1">
-                        {RenderComments(props.comments)}
+                        {RenderComments(props.comments, props.addComment, props.dish.id)}
                     </div>
                 </div>
             </div>
