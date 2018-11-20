@@ -3,8 +3,11 @@ import { Dishes } from './dishes';
 import { Promotions } from './promotions';
 import { Leaders } from './leaders';
 import { Comments } from './comments';
+import { ContactFormInitState } from './forms';
+import { createForms } from 'react-redux-form';
 import thunk from 'redux-thunk';
 import logger from 'redux-logger';
+
 
 export const ConfigureStore = () => {
     return createStore(
@@ -12,7 +15,8 @@ export const ConfigureStore = () => {
             dishes: Dishes,
             promotions: Promotions,
             leaders: Leaders,
-            comments: Comments
+            comments: Comments,
+            ...createForms({ feedback: ContactFormInitState })
         }),
         applyMiddleware(thunk, logger));
 };
