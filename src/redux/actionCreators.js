@@ -11,15 +11,33 @@ export const fetchComments = () => (dispatch) => {
 };
 export const addComments = (comments) => ( { type: ActionTypes.ADD_COMMENTS, payload: comments } );
 export const commentsFailed = (errMess) => ( { type: ActionTypes.COMMENTS_FAILED, payload: errMess } );
-export const addComment = (dishId, rating, author, comment) => ({
+export const addComment = (comment) => ({
     type: ActionTypes.ADD_COMMENT,
-    payload: {
+    payload: comment
+});
+export const postComment = (dishId, rating, author, comment) => (dispatch) => {
+    const newComment = {
         dishId: dishId,
         rating: rating,
         author: author,
-        comment: comment
-    }
-});
+        comment: comment,
+        date: new Date().toISOString()
+    };
+    return fetch(baseUrl + 'comments', {
+        method: 'POST',
+        body: JSON.stringify(newComment),
+        headers: {
+            "content-type": 'application/json'
+        },
+        credentials: 'same-origin'
+    })
+        .then(handleRs, handleErr)
+        .then(comm => dispatch(addComment(comm)))
+        .catch(err => {
+            console.log('Error on post comment: ', err.message);
+            alert('Sorry, some problem happen. Can not post a comment.');
+        });
+};
 
 
 export const fetchDishes = () => (dispatch) => {
