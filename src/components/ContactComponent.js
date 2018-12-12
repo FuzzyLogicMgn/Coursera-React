@@ -6,9 +6,10 @@ import { Link } from 'react-router-dom';
 class Contact extends Component {
 
     onSubmit(values) {
-        console.log("Submitted values: " + JSON.stringify(values));
-        alert("Submitted values: " + JSON.stringify(values));
-        this.props.resetFeedbackForm();
+        // console.log("Submitted values: " + JSON.stringify(values));
+        // alert("Submitted values: " + JSON.stringify(values));
+        this.props.postFeedback(values);
+        this.props.resetFeedbackForm();        
         //event.preventDefault();
     }
 

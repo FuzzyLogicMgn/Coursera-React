@@ -9,3 +9,7 @@ export const DISHES_FAILED = 'DISHES_FAILED';
 export const ADD_PROMO = 'ADD_PROMO';
 export const PROMO_LOADING = 'PROMO_LOADING';
 export const PROMO_FAILED = 'PROMO_FAILED';
+
+export const ADD_LEADERS = 'ADD_LEADERS';
+export const LEADERS_LOADING = 'LEADERS_LOADING';
+export const LEADERS_FAILED = 'LEADERS_FAILED';

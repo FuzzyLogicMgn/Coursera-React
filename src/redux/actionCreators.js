@@ -40,6 +40,28 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
 };
 
 
+export const postFeedback = (feedback) => (dispatch) => {
+    const newFeedback = {
+        ...feedback,
+        date: new Date().toISOString()
+    };
+    return fetch(baseUrl + 'feedback', {
+        method: 'POST',
+        body: JSON.stringify(newFeedback),
+        headers: {
+            "content-type": 'application/json'
+        },
+        credentials: 'same-origin'
+    })
+        .then(handleRs, handleErr)
+        .then(feedback => alert("Thank you for your feedback\n" + JSON.stringify(feedback)))
+        .catch(err => {
+            console.log('Error on post feedback: ', err.message);
+            alert('Sorry, some problem happen. Can not post a feedback.');
+        });
+};
+
+
 export const fetchDishes = () => (dispatch) => {
     dispatch(dishesLoading(true));
 
@@ -64,6 +86,19 @@ export const fetchPromos = () => (dispatch) => {
 export const promosLoading = () => ( { type: ActionTypes.PROMO_LOADING } );
 export const promosFailed = (errMess) => ( { type: ActionTypes.PROMO_FAILED, payload: errMess } );
 export const promosAdd = (promos) => ( { type: ActionTypes.ADD_PROMO, payload: promos } );
+
+
+export const fetchLeaders = () => (dispatch) => {
+    dispatch(leadersLoading(true));
+
+    return fetch(baseUrl + 'leaders')
+        .then(handleRs, handleErr)
+        .then(leaders => dispatch(leadersAdd(leaders)))
+        .catch(error => dispatch(leadersFailed(error.message)));
+};
+export const leadersLoading = () => ( { type: ActionTypes.LEADERS_LOADING } );
+export const leadersFailed = (errMess) => ( { type: ActionTypes.LEADERS_FAILED, payload: errMess } );
+export const leadersAdd = (leaders) => ( { type: ActionTypes.ADD_LEADERS, payload: leaders } );
 
 
 function handleRs(response) {
